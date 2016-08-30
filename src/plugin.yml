@@ -1,0 +1,9 @@
+name: PerMession
+version: 1.0
+author: NormanClode (jackey0131)
+main: org.mocraft.PerMession
+depend: [GroupManager]
+commands:
+      per:
+               description: nop
+               usage: nops
