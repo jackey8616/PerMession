@@ -14,8 +14,6 @@ import java.util.Iterator;
  */
 public class PerMession extends JavaPlugin {
 
-
-
     @Override
     public void onEnable() {
         Iterator<Permission> per = Bukkit.getPluginManager().getPermissions().iterator();
@@ -29,7 +27,7 @@ public class PerMession extends JavaPlugin {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("per")) {
+        if (cmd.getName().equalsIgnoreCase("per") && sender.isOp()) {
             CommandTask task = new CommandTask((Player) sender, args[0], args);
             task.setId(Bukkit.getScheduler().scheduleSyncRepeatingTask(this, task, 0L, 1L));
             return true;

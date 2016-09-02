@@ -40,10 +40,4 @@ public class CommandTask implements Runnable {
         this.id = id;
     }
 
-
-    private int time2Tick(String time) {
-        // (y)ear, (M)onth, (d)ay, (h)our, (m)inutes, (s)econd
-
-        return 0;
-    }
 }
