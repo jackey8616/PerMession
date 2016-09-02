@@ -29,7 +29,6 @@ public class CommandTask implements Runnable {
         } else {
             time--;
         }
-        System.out.println(time);
     }
 
     public int getId() {
