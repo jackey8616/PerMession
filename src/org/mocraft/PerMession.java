@@ -16,10 +16,12 @@ public class PerMession extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        Iterator<Permission> per = Bukkit.getPluginManager().getPermissions().iterator();
-        while(per.hasNext()) {
-            System.out.println(per.next().getName());
-        }
+        /** Debug
+                    Iterator<Permission> per = Bukkit.getPluginManager().getPermissions().iterator();
+                    while(per.hasNext()) {
+                        System.out.println(per.next().getName());
+                    }
+                **/
     }
 
     @Override
