@@ -1,9 +1,8 @@
 name: PerMession
 version: 1.0
-author: NormanClode (jackey0131)
 main: org.mocraft.PerMession
 depend: [GroupManager]
 commands:
-      per:
-               description: Count donw to cancel a Player's permission/group
-               usage: Only Operator can use this command, /per <minutes> <commands>
+      perme:
+        description: Count donw to cancel a Player's permission/group
+        usage: Only Operator can use this command, /per <minutes> <commands>
