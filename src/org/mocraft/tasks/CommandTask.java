@@ -11,16 +11,18 @@ public class CommandTask implements Runnable {
     protected int id;
     protected PerMession instance;
     protected CommandSender sender;
-    protected Player target;
+    protected int reflect;
+    protected int period;
     protected ZonedDateTime startTime, endTime;
     protected String command;
 
-    public CommandTask(PerMession instance, CommandSender sender, Player target, int period, String args) {
+    public CommandTask(PerMession instance, CommandSender sender, int reflect, int period, String args) {
         this.instance = instance;
         this.sender = sender;
-        this.target = target;
         this.startTime = ZonedDateTime.now();
-        this.endTime = startTime.plusSeconds(period / 20);
+        this.reflect = reflect;
+        this.period = period;
+        this.endTime = startTime.plusSeconds(period);
         this.command = args;
     }
 

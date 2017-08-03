@@ -4,5 +4,11 @@ main: org.mocraft.PerMession
 depend: [GroupManager]
 commands:
       perme:
-        description: Count donw to cancel a Player's permission/group
-        usage: Only Operator can use this command, /per <minutes> <commands>
+        description: Provide a more convience way to take back permission/commands.
+        usage: |
+               Unly Operator can use command.
+               <period> in seconds.
+               <command> with one single line command without slash(/)
+               /<command> help - Plugin's Help.
+               /<command> dur|duration <period> <command> - Let system after <period> execute command.
+               /<command> dur-refelct|duration-refelct <peroid> <command> - Let system after <period> execute refelct-command.
