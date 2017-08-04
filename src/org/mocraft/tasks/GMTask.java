@@ -5,9 +5,9 @@ import org.mocraft.PerMession;
 
 import java.time.ZonedDateTime;
 
-public class GroupManagerTask extends CommandTask {
+public class GMTask extends CommandTask {
 
-    public GroupManagerTask(PerMession instance, CommandSender sender, int reflect, int period, String cmd) {
+    public GMTask(PerMession instance, CommandSender sender, int reflect, int period, String cmd) {
         super(instance, sender, reflect, period, cmd);
         if(reflect != 0)
             instance.getServer().dispatchCommand(sender, cmd);

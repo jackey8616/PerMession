@@ -1,17 +1,13 @@
 package org.mocraft;
 
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mocraft.reflect.GMReflector;
 import org.mocraft.tasks.CommandTask;
-import org.mocraft.tasks.GroupManagerTask;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
+import org.mocraft.tasks.GMTask;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 /**
  * Created by Clode on 2016/8/29.
@@ -19,13 +15,19 @@ import java.util.Iterator;
 public class PerMession extends JavaPlugin {
 
     public boolean groupManager = false;
+    public GMReflector gmReflect;
+    public boolean permissionEx = false;
 
     public ArrayList<CommandTask> tasks = new ArrayList<CommandTask>();
 
     @Override
     public void onEnable() {
         groupManager = getServer().getPluginManager().getPlugin("GroupManager") != null;
+        permissionEx = getServer().getPluginManager().getPlugin("PermissionEx") != null;
 
+        if(groupManager) {
+            gmReflect = new GMReflector(this);
+        }
     }
 
     @Override
@@ -37,7 +39,7 @@ public class PerMession extends JavaPlugin {
         for(int i = argsIndex; i < args.length; ++i)
             command += args[i] + " ";
         if(groupManager) {
-            task = new GroupManagerTask(this, sender, reflect, period, command.trim());
+            task = new GMTask(this, sender, reflect, period, command.trim());
         }
         task.setId(this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0L, 20L));
         tasks.add(task);
