@@ -1,5 +1,7 @@
 package org.mocraft.command.gm;
 
+import org.bukkit.Bukkit;
+
 public class GmTempdel extends GmTempadd implements GmCommand {
 
     @Override
@@ -14,7 +16,7 @@ public class GmTempdel extends GmTempadd implements GmCommand {
 
     @Override
     public String toStringCommand() {
-        return "tempdel " + target.getDisplayName();
+        return "tempdel " + Bukkit.getPlayer(target).getName();
     }
 
     @Override

@@ -1,16 +1,17 @@
 package org.mocraft.command.gm;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class GmManuaddsub implements GmCommand {
 
-    protected Player target;
+    protected UUID target;
     protected String group;
 
     public GmManuaddsub() {}
 
-    public GmManuaddsub(Player target, String group) {
+    public GmManuaddsub(UUID target, String group) {
         this.target = target;
         this.group = group;
     }
@@ -22,14 +23,14 @@ public class GmManuaddsub implements GmCommand {
 
     @Override
     public GmManuaddsub init(String[] args) {
-        this.target = Bukkit.getPlayer(args[1]);
+        this.target = Bukkit.getPlayer(args[1]).getUniqueId();
         this.group = args[2];
         return this;
     }
 
     @Override
     public String toStringCommand() {
-        return "manuaddsub " + target.getDisplayName() + " " + group;
+        return "manuaddsub " + Bukkit.getPlayer(target).getName() + " " + group;
     }
 
     @Override

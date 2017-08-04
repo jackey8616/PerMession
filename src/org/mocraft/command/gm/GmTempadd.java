@@ -1,11 +1,12 @@
 package org.mocraft.command.gm;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class GmTempadd implements GmCommand {
 
-    protected Player target;
+    protected UUID target;
 
     @Override
     public boolean reflectable() {
@@ -14,13 +15,13 @@ public class GmTempadd implements GmCommand {
 
     @Override
     public GmTempadd init(String[] args) {
-        this.target = Bukkit.getPlayer(args[1]);
+        this.target = Bukkit.getPlayer(args[1]).getUniqueId();
         return this;
     }
 
     @Override
     public String toStringCommand() {
-        return "tempadd " + target.getDisplayName();
+        return "tempadd " + Bukkit.getPlayer(target).getName();
     }
 
     @Override

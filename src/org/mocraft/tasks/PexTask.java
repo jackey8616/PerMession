@@ -5,15 +5,16 @@ import org.mocraft.PerMession;
 
 import java.time.ZonedDateTime;
 
-public class GMTask extends CommandTask {
+public class PexTask extends CommandTask {
 
-    private PerMession instance;
+    public PerMession instance;
 
-    public GMTask(PerMession instance, CommandSender sender, int reflect, int period, String cmd) {
+    public PexTask(PerMession instance, CommandSender sender, int reflect, int period, String cmd) {
         super(instance, sender, reflect, period, cmd);
         this.instance = instance;
-        if(reflect != 0)
+        if(reflect != 0) {
             instance.getServer().dispatchCommand(sender, cmd);
+        }
     }
 
     public String commandReplace(int reflect, String cmd) {
@@ -21,7 +22,7 @@ public class GMTask extends CommandTask {
             return cmd;
         } else if(reflect == 1) {
             String[] splitCmd = cmd.split(" ");
-            return instance.gmReflector.reflect(splitCmd[0], splitCmd);
+            return instance.pexReflector.reflect(splitCmd[0], splitCmd);
         }
         return null;
     }
@@ -33,4 +34,5 @@ public class GMTask extends CommandTask {
             instance.getServer().dispatchCommand(sender, commandReplace(reflect, command));
         }
     }
+
 }

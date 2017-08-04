@@ -4,8 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mocraft.reflect.GMReflector;
+import org.mocraft.reflect.PexReflector;
 import org.mocraft.tasks.CommandTask;
 import org.mocraft.tasks.GMTask;
+import org.mocraft.tasks.PexTask;
 
 import java.util.ArrayList;
 
@@ -14,19 +16,22 @@ import java.util.ArrayList;
  */
 public class PerMession extends JavaPlugin {
 
-    public boolean groupManager = false;
-    public GMReflector gmReflect;
     public boolean permissionEx = false;
+    public PexReflector pexReflector;
+    public boolean groupManager = false;
+    public GMReflector gmReflector;
 
     public ArrayList<CommandTask> tasks = new ArrayList<CommandTask>();
 
     @Override
     public void onEnable() {
-        groupManager = getServer().getPluginManager().getPlugin("GroupManager") != null;
         permissionEx = getServer().getPluginManager().getPlugin("PermissionEx") != null;
+        groupManager = getServer().getPluginManager().getPlugin("GroupManager") != null;
 
-        if(groupManager) {
-            gmReflect = new GMReflector(this);
+        if(permissionEx) {
+            pexReflector = new PexReflector(this);
+        } else if(groupManager) {
+            gmReflector = new GMReflector(this);
         }
     }
 
@@ -36,9 +41,11 @@ public class PerMession extends JavaPlugin {
     public void assignTask(CommandSender sender, int reflect, int period, int argsIndex, String[] args) {
         String command = "";
         CommandTask task = null;
-        for(int i = argsIndex; i < args.length; ++i)
+        for (int i = argsIndex; i < args.length; ++i)
             command += args[i] + " ";
-        if(groupManager) {
+        if(permissionEx) {
+            task = new PexTask(this, sender, reflect, period, command.trim());
+        } else if(groupManager) {
             task = new GMTask(this, sender, reflect, period, command.trim());
         }
         task.setId(this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0L, 20L));

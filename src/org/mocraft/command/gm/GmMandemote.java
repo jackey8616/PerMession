@@ -1,20 +1,21 @@
 package org.mocraft.command.gm;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class GmMandemote extends GmManpromote implements GmCommand {
 
     public GmMandemote() {}
 
-    public GmMandemote(Player target, String group) {
+    public GmMandemote(UUID target, String group) {
         this.target = target;
         this.group = group;
     }
 
     @Override
     public GmMandemote init(String[] args) {
-        this.target = Bukkit.getPlayer(args[1]);
+        this.target = Bukkit.getPlayer(args[1]).getUniqueId();
         this.group = args[2];
         return this;
     }
@@ -26,7 +27,7 @@ public class GmMandemote extends GmManpromote implements GmCommand {
 
     @Override
     public String toStringCommand() {
-        return "mandemote " + target.getDisplayName() + " " + group;
+        return "mandemote " + Bukkit.getPlayer(target).getName() + " " + group;
     }
 
     @Override

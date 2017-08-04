@@ -1,13 +1,14 @@
 package org.mocraft.command.gm;
 
 import org.bukkit.Bukkit;
-import org.bukkit.entity.Player;
+
+import java.util.UUID;
 
 public class GmManudelv extends GmManuaddv implements GmCommand {
 
     public GmManudelv() {}
 
-    public GmManudelv(Player target, String var) {
+    public GmManudelv(UUID target, String var) {
         this.target = target;
         this.var = var;
     }
@@ -19,14 +20,14 @@ public class GmManudelv extends GmManuaddv implements GmCommand {
 
     @Override
     public GmManudelv init(String[] args) {
-        this.target = Bukkit.getPlayer(args[1]);
+        this.target = Bukkit.getPlayer(args[1]).getUniqueId();
         this.var = args[2];
         return this;
     }
 
     @Override
     public String toStringCommand() {
-        return "manudelv " + target.getDisplayName() + " " + var;
+        return "manudelv " + Bukkit.getPlayer(target).getName() + " " + var;
     }
 
     @Override
