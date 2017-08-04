@@ -7,8 +7,11 @@ import java.time.ZonedDateTime;
 
 public class GMTask extends CommandTask {
 
+    private PerMession instance;
+
     public GMTask(PerMession instance, CommandSender sender, int reflect, int period, String cmd) {
         super(instance, sender, reflect, period, cmd);
+        this.instance = instance;
         if(reflect != 0)
             instance.getServer().dispatchCommand(sender, cmd);
     }
@@ -17,7 +20,10 @@ public class GMTask extends CommandTask {
         if(reflect == 0) {
             return cmd;
         } else if(reflect == 1) {
+            System.out.println(cmd);
             String[] splitCmd = cmd.split(" ");
+            return instance.gmReflect.reflect(splitCmd[0], splitCmd);
+            /**
             if(splitCmd[0].equalsIgnoreCase("manuadd"))
                 cmd = "manudel " + splitCmd[1];
             else if(splitCmd[0].equalsIgnoreCase("manuaddv"))
@@ -28,7 +34,7 @@ public class GMTask extends CommandTask {
                 cmd = cmd.replace(splitCmd[0], splitCmd[0].replace("add", "del"));
             else if (splitCmd[0].contains("del"))
                 cmd = cmd.replace(splitCmd[0], splitCmd[0] = splitCmd[0].replace("del", "add"));
-            return cmd;
+            return cmd;**/
         }
         return null;
     }

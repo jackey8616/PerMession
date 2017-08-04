@@ -1,39 +1,47 @@
 package org.mocraft.reflect;
 
-import org.bukkit.command.Command;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mocraft.PerMession;
+import org.mocraft.command.gm.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class GMReflector {
 
-    public Map<Command, Command> commands = new HashMap<Command, Command>();
+    public JavaPlugin gmInstance;
+    public Map<String, GmCommand> reflectableMap = new HashMap<String, GmCommand>();
 
     public GMReflector(PerMession instance) {
-        JavaPlugin groupManager = (JavaPlugin)instance.getServer().getPluginManager().getPlugin("GroupManager");
+        gmInstance = (JavaPlugin) instance.getServer().getPluginManager().getPlugin("GroupManager");
+        reflectableMap.put("manuadd", new GmManuadd());
+        reflectableMap.put("manuaddsub", new GmManuaddsub());
+        reflectableMap.put("manudelsub", new GmManudelsub());
+        reflectableMap.put("mangadd", new GmMangadd());
+        reflectableMap.put("mangdel", new GmMangdel());
+        reflectableMap.put("manuaddp", new GmManuaddp());
+        reflectableMap.put("manudelp", new GmManudelp());
+        reflectableMap.put("mangaddp", new GmMangaddp());
+        reflectableMap.put("mangdelp", new GmMangdelp());
+        reflectableMap.put("mangaddi", new GmMangaddi());
+        reflectableMap.put("mangdeli", new GmMangdeli());
+        reflectableMap.put("manuaddv", new GmManuaddv());
+        reflectableMap.put("mangaddv", new GmMangaddv());
+        reflectableMap.put("tempadd", new GmTempadd());
+        reflectableMap.put("tempdel", new GmTempdel());
+        reflectableMap.put("manpromote", new GmManpromote());
+        reflectableMap.put("mandemote", new GmMandemote());
+        reflectableMap.put("mantogglevalidate", new GmMantogglevalidate());
+        reflectableMap.put("mantogglesave", new GmMantogglesave());
+    }
 
-        commands.put(groupManager.getCommand("manuadd"), groupManager.getCommand("manudel"));
-        commands.put(groupManager.getCommand("manuaddsub"), groupManager.getCommand("manudelsub"));
-        commands.put(groupManager.getCommand("manudelsub"), groupManager.getCommand("manuaddsub"));
-        commands.put(groupManager.getCommand("mangadd"), groupManager.getCommand("mangdel"));
-        commands.put(groupManager.getCommand("mangdel"), groupManager.getCommand("mangadd"));
-        commands.put(groupManager.getCommand("manuaddp"), groupManager.getCommand("manudelp"));
-        commands.put(groupManager.getCommand("manudelp"), groupManager.getCommand("manuaddp"));
-        commands.put(groupManager.getCommand("mangaddp"), groupManager.getCommand("mangdelp"));
-        commands.put(groupManager.getCommand("mangdelp"), groupManager.getCommand("mangaddp"));
-        commands.put(groupManager.getCommand("mangaddi"), groupManager.getCommand("mangdeli"));
-        commands.put(groupManager.getCommand("mangdeli"), groupManager.getCommand("mangaddi"));
-        commands.put(groupManager.getCommand("manuaddv"), groupManager.getCommand("manudelv"));
-        commands.put(groupManager.getCommand("manudelv"), groupManager.getCommand("manuaddv"));
-        commands.put(groupManager.getCommand("mangaddv"), groupManager.getCommand("mangdelv"));
-        commands.put(groupManager.getCommand("tempadd"), groupManager.getCommand("tempdel"));
-        commands.put(groupManager.getCommand("tempdel"), groupManager.getCommand("tempadd"));
-        commands.put(groupManager.getCommand("manpromote"), groupManager.getCommand("mandemote"));
-        commands.put(groupManager.getCommand("mandemote"), groupManager.getCommand("manpromote"));
-        commands.put(groupManager.getCommand("mantogglevalidate"), groupManager.getCommand("mantogglevalidate"));
-        commands.put(groupManager.getCommand("mantogglesave"), groupManager.getCommand("mantogglesave"));
+    public String reflect(String label, String[] args) {
+        String cmd = "";
+        if (reflectableMap.containsKey(label)) {
+            return reflectableMap.get(label).init(args).reflect().toStringCommand();
+        } else {
+            return null;
+        }
     }
 
 }
