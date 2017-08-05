@@ -16,7 +16,7 @@ import java.util.ArrayList;
  */
 public class PerMession extends JavaPlugin {
 
-    public boolean permissionEx = false;
+    public boolean permissionsEx = false;
     public PexReflector pexReflector;
     public boolean groupManager = false;
     public GMReflector gmReflector;
@@ -25,10 +25,11 @@ public class PerMession extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        permissionEx = getServer().getPluginManager().getPlugin("PermissionEx") != null;
+        permissionsEx = getServer().getPluginManager().getPlugin("PermissionsEx") != null;
         groupManager = getServer().getPluginManager().getPlugin("GroupManager") != null;
 
-        if(permissionEx) {
+        if(permissionsEx) {
+            System.out.println("PermissionsEx detected!");
             pexReflector = new PexReflector(this);
         } else if(groupManager) {
             gmReflector = new GMReflector(this);
@@ -43,7 +44,7 @@ public class PerMession extends JavaPlugin {
         CommandTask task = null;
         for (int i = argsIndex; i < args.length; ++i)
             command += args[i] + " ";
-        if(permissionEx) {
+        if(permissionsEx) {
             task = new PexTask(this, sender, reflect, period, command.trim());
         } else if(groupManager) {
             task = new GMTask(this, sender, reflect, period, command.trim());

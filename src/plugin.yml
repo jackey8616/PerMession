@@ -1,7 +1,7 @@
 name: PerMession
 version: 1.0
 main: org.mocraft.PerMession
-depend: [GroupManager]
+softdepend: ["GroupManager", "PermissionsEx"]
 commands:
       perme:
         description: Provide a more convience way to take back permission/commands.

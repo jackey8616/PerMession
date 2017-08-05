@@ -13,7 +13,7 @@ public class PexReflector {
     public Map<String, PexCommand> reflectableMap = new HashMap<String, PexCommand>();
 
     public PexReflector(PerMession instance) {
-        pexInstance = (JavaPlugin) instance.getServer().getPluginManager().getPlugin("PermissionEx");
+        pexInstance = (JavaPlugin) instance.getServer().getPluginManager().getPlugin("PermissionsEx");
         reflectableMap.put("pex user <user> add", new PexUseraddp());
         reflectableMap.put("pex user <user> remove", new PexUserremovep());
         reflectableMap.put("pex user <user> swap", new PexUserswap());
@@ -22,7 +22,7 @@ public class PexReflector {
         reflectableMap.put("pex group <group> add", new PexGroupaddp());
         reflectableMap.put("pex group <group> remove", new PexGroupremovep());
         reflectableMap.put("pex group <group> user add", new PexGroupuadd());
-        reflectableMap.put("pex group <group> user remnove", new PexGroupuremove());
+        reflectableMap.put("pex group <group> user remove", new PexGroupuremove());
         reflectableMap.put("pex promote", new PexPromote());
         reflectableMap.put("pex demote", new PexDemote());
         reflectableMap.put("promote", new PexOutterPromote());
@@ -31,8 +31,32 @@ public class PexReflector {
 
     public String reflect(String label, String[] args) {
         String cmd = "";
-        if (reflectableMap.containsKey(label)) {
-            return reflectableMap.get(label).init(args).reflect().toStringCommand();
+        String anchor = "";
+        if(args[0].equalsIgnoreCase("pex")) {
+            anchor += "pex ";
+            if(args[1].equalsIgnoreCase("user")) {
+                anchor += "user <user> ";
+                if(args[3].equalsIgnoreCase("group")) {
+                    anchor += "group " + args[4];
+                } else {
+                    anchor += args[3];
+                }
+            } else if(args[1].equalsIgnoreCase("group")) {
+                anchor += "group <group> ";
+                if(args[3].equalsIgnoreCase("user")) {
+                    anchor += "user " + args[4];
+                } else {
+                    anchor += args[3];
+                }
+            } else {
+                anchor += args[1];
+            }
+        } else {
+            anchor = args[0];
+        }
+
+        if (reflectableMap.containsKey(anchor)) {
+            return reflectableMap.get(anchor).init(args).reflect().toStringCommand();
         } else {
             return null;
         }
