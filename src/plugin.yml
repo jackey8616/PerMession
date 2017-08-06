@@ -10,5 +10,6 @@ commands:
                <period> in seconds.
                <command> with one single line command without slash(/)
                /<command> help - Plugin's Help.
+               /<command> tasks - list all tasks.
                /<command> dur|duration <period> <command> - Let system after <period> execute command.
                /<command> dur-refelct|duration-refelct <peroid> <command> - Let system after <period> execute refelct-command.

@@ -1,19 +1,17 @@
 package org.mocraft.reflect;
 
-import org.bukkit.plugin.java.JavaPlugin;
 import org.mocraft.PerMession;
 import org.mocraft.command.pex.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class PexReflector {
+public class PexReflector extends VanillaReflector implements Reflector {
 
-    public JavaPlugin pexInstance;
     public Map<String, PexCommand> reflectableMap = new HashMap<String, PexCommand>();
 
     public PexReflector(PerMession instance) {
-        pexInstance = (JavaPlugin) instance.getServer().getPluginManager().getPlugin("PermissionsEx");
+        super(instance);
         reflectableMap.put("pex user <user> add", new PexUseraddp());
         reflectableMap.put("pex user <user> remove", new PexUserremovep());
         reflectableMap.put("pex user <user> swap", new PexUserswap());
@@ -29,8 +27,8 @@ public class PexReflector {
         reflectableMap.put("demote", new PexOutterDemote());
     }
 
+    @Override
     public String reflect(String label, String[] args) {
-        String cmd = "";
         String anchor = "";
         if(args[0].equalsIgnoreCase("pex")) {
             anchor += "pex ";

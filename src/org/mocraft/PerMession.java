@@ -5,9 +5,10 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mocraft.reflect.GMReflector;
 import org.mocraft.reflect.PexReflector;
-import org.mocraft.tasks.CommandTask;
+import org.mocraft.reflect.VanillaReflector;
 import org.mocraft.tasks.GMTask;
 import org.mocraft.tasks.PexTask;
+import org.mocraft.tasks.VanillaTask;
 
 import java.util.ArrayList;
 
@@ -17,21 +18,26 @@ import java.util.ArrayList;
 public class PerMession extends JavaPlugin {
 
     public boolean permissionsEx = false;
+    public JavaPlugin pexInstance;
     public PexReflector pexReflector;
     public boolean groupManager = false;
+    public JavaPlugin gmInstance;
     public GMReflector gmReflector;
 
-    public ArrayList<CommandTask> tasks = new ArrayList<CommandTask>();
+    public VanillaReflector vanillaReflector;
+    public ArrayList<VanillaTask> tasks = new ArrayList<VanillaTask>();
 
     @Override
     public void onEnable() {
         permissionsEx = getServer().getPluginManager().getPlugin("PermissionsEx") != null;
         groupManager = getServer().getPluginManager().getPlugin("GroupManager") != null;
+        vanillaReflector = new VanillaReflector(this);
 
         if(permissionsEx) {
-            System.out.println("PermissionsEx detected!");
+            pexInstance = (JavaPlugin) getServer().getPluginManager().getPlugin("PermissionsEx");
             pexReflector = new PexReflector(this);
         } else if(groupManager) {
+            gmInstance = (JavaPlugin) getServer().getPluginManager().getPlugin("GroupManager");
             gmReflector = new GMReflector(this);
         }
     }
@@ -41,13 +47,15 @@ public class PerMession extends JavaPlugin {
 
     public void assignTask(CommandSender sender, int reflect, int period, int argsIndex, String[] args) {
         String command = "";
-        CommandTask task = null;
+        VanillaTask task = null;
         for (int i = argsIndex; i < args.length; ++i)
             command += args[i] + " ";
-        if(permissionsEx) {
+        if(permissionsEx && command.startsWith("pex")) {
             task = new PexTask(this, sender, reflect, period, command.trim());
-        } else if(groupManager) {
+        } else if(groupManager && gmReflector.reflect(command) != null) {
             task = new GMTask(this, sender, reflect, period, command.trim());
+        } else {
+            task = new VanillaTask(this, sender, reflect, period, command.trim());
         }
         task.setId(this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0L, 20L));
         tasks.add(task);
@@ -57,8 +65,12 @@ public class PerMession extends JavaPlugin {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
         if (cmd.getName().equalsIgnoreCase("perme") && sender.isOp()) {
-            if(args.length == 0 || args[0].equalsIgnoreCase("help")){
+            if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(cmd.getUsage());
+            } else if(args[0].equalsIgnoreCase("tasks")) {
+                sender.sendMessage(String.format("| I D |       T I M E       |    COMMAND / REFLECT"));
+                for(VanillaTask task : tasks)
+                    sender.sendMessage(String.format("| %03d | %s | %s | %s |", task.getId(), task.getStartTimeString(), task.getCommand(), task.getReflectCommand()));
             } else if(args[0].equalsIgnoreCase("dur") || args[0].equalsIgnoreCase("duration")) {
                 int duration = Integer.valueOf(args[1]);
                 assignTask(sender, 0, duration, 2, args);

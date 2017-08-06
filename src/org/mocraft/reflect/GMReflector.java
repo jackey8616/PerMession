@@ -1,19 +1,17 @@
 package org.mocraft.reflect;
 
-import org.bukkit.plugin.java.JavaPlugin;
 import org.mocraft.PerMession;
 import org.mocraft.command.gm.*;
 
 import java.util.HashMap;
 import java.util.Map;
 
-public class GMReflector {
+public class GMReflector extends VanillaReflector implements Reflector {
 
-    public JavaPlugin gmInstance;
     public Map<String, GmCommand> reflectableMap = new HashMap<String, GmCommand>();
 
     public GMReflector(PerMession instance) {
-        gmInstance = (JavaPlugin) instance.getServer().getPluginManager().getPlugin("GroupManager");
+        super(instance);
         reflectableMap.put("manuadd", new GmManuadd());
         reflectableMap.put("manuaddsub", new GmManuaddsub());
         reflectableMap.put("manudelsub", new GmManudelsub());
@@ -35,13 +33,21 @@ public class GMReflector {
         reflectableMap.put("mantogglesave", new GmMantogglesave());
     }
 
+    @Override
+    public String reflect(String command) {
+        String[] cmd = command.split(" ");
+        return reflect(cmd[0], cmd);
+    }
+
+    @Override
     public String reflect(String label, String[] args) {
-        String cmd = "";
         if (reflectableMap.containsKey(label)) {
             return reflectableMap.get(label).init(args).reflect().toStringCommand();
         } else {
             return null;
         }
     }
+
+
 
 }
