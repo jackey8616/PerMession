@@ -1,5 +1,6 @@
 package org.mocraft;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -68,9 +69,20 @@ public class PerMession extends JavaPlugin {
             if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
                 sender.sendMessage(cmd.getUsage());
             } else if(args[0].equalsIgnoreCase("tasks")) {
-                sender.sendMessage(String.format("| I D |       T I M E       |    COMMAND / REFLECT"));
-                for(VanillaTask task : tasks)
-                    sender.sendMessage(String.format("| %03d | %s | %s | %s |", task.getId(), task.getStartTimeString(), task.getCommand(), task.getReflectCommand()));
+                if(args.length == 1) {
+                    sender.sendMessage(String.format("| I D |       T I M E       |    COMMAND / REFLECT"));
+                    for (int i = 0; i < tasks.size(); ++i) {
+                        VanillaTask task = tasks.get(i);
+                        sender.sendMessage(String.format("| % 3d | %s | %s | %s |", i, task.getStartTimeString(), task.getCommand(), task.getReflectCommand()));
+                    }
+                } else {
+                    if(args[1].equalsIgnoreCase("delete")) {
+                        VanillaTask task = tasks.get(Integer.valueOf(args[2]));
+                        Bukkit.getScheduler().cancelTask(task.getId());
+                        tasks.remove(task);
+                        sender.sendMessage("Removed task id: " + args[2] + ".");
+                    }
+                }
             } else if(args[0].equalsIgnoreCase("dur") || args[0].equalsIgnoreCase("duration")) {
                 int duration = Integer.valueOf(args[1]);
                 assignTask(sender, 0, duration, 2, args);
