@@ -1,16 +1,12 @@
 package org.mocraft.command.pex;
 
-public interface PexCommand {
+import org.mocraft.command.Command;
 
-    boolean reflectable();
+public interface PexCommand extends Command {
 
+    @Override
     PexCommand init(String[] args);
 
-    String toStringCommand();
-
-    String label();
-
     PexCommand reflect();
-
 
 }

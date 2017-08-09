@@ -2,7 +2,7 @@ package org.mocraft.tasks;
 
 public interface Task {
 
-    String commandReplace(int reflect, String cmd);
+    String commandReplace(boolean reflect, String cmd);
 
     int getId();
 

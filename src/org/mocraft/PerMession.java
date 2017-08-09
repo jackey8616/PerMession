@@ -1,14 +1,10 @@
 package org.mocraft;
 
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mocraft.command.executor.PermeExecutor;
 import org.mocraft.reflect.GMReflector;
 import org.mocraft.reflect.PexReflector;
 import org.mocraft.reflect.VanillaReflector;
-import org.mocraft.tasks.GMTask;
-import org.mocraft.tasks.PexTask;
 import org.mocraft.tasks.VanillaTask;
 
 import java.util.ArrayList;
@@ -25,6 +21,7 @@ public class PerMession extends JavaPlugin {
     public JavaPlugin gmInstance;
     public GMReflector gmReflector;
 
+    public PermeExecutor permeCommandExecutor;
     public VanillaReflector vanillaReflector;
     public ArrayList<VanillaTask> tasks = new ArrayList<VanillaTask>();
 
@@ -41,58 +38,11 @@ public class PerMession extends JavaPlugin {
             gmInstance = (JavaPlugin) getServer().getPluginManager().getPlugin("GroupManager");
             gmReflector = new GMReflector(this);
         }
+
+        this.getCommand("perme").setExecutor(permeCommandExecutor = new PermeExecutor(this));
     }
 
     @Override
     public void onDisable() {}
-
-    public void assignTask(CommandSender sender, int reflect, int period, int argsIndex, String[] args) {
-        String command = "";
-        VanillaTask task = null;
-        for (int i = argsIndex; i < args.length; ++i)
-            command += args[i] + " ";
-        if(permissionsEx && command.startsWith("pex")) {
-            task = new PexTask(this, sender, reflect, period, command.trim());
-        } else if(groupManager && gmReflector.reflect(command) != null) {
-            task = new GMTask(this, sender, reflect, period, command.trim());
-        } else {
-            task = new VanillaTask(this, sender, reflect, period, command.trim());
-        }
-        task.setId(this.getServer().getScheduler().scheduleSyncRepeatingTask(this, task, 0L, 20L));
-        tasks.add(task);
-        return;
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (cmd.getName().equalsIgnoreCase("perme") && sender.isOp()) {
-            if (args.length == 0 || args[0].equalsIgnoreCase("help")) {
-                sender.sendMessage(cmd.getUsage());
-            } else if(args[0].equalsIgnoreCase("tasks")) {
-                if(args.length == 1) {
-                    sender.sendMessage(String.format("| I D |       T I M E       |    COMMAND / REFLECT"));
-                    for (int i = 0; i < tasks.size(); ++i) {
-                        VanillaTask task = tasks.get(i);
-                        sender.sendMessage(String.format("| % 3d | %s | %s | %s |", i, task.getStartTimeString(), task.getCommand(), task.getReflectCommand()));
-                    }
-                } else {
-                    if(args[1].equalsIgnoreCase("delete")) {
-                        VanillaTask task = tasks.get(Integer.valueOf(args[2]));
-                        Bukkit.getScheduler().cancelTask(task.getId());
-                        tasks.remove(task);
-                        sender.sendMessage("Removed task id: " + args[2] + ".");
-                    }
-                }
-            } else if(args[0].equalsIgnoreCase("dur") || args[0].equalsIgnoreCase("duration")) {
-                int duration = Integer.valueOf(args[1]);
-                assignTask(sender, 0, duration, 2, args);
-            } else if(args[0].equalsIgnoreCase("dur-reflect") || args[0].equalsIgnoreCase("duration-reflect")) {
-                int duration = Integer.valueOf(args[1]);
-                assignTask(sender, 1, duration, 2, args);
-            }
-            return true;
-        }
-        return false;
-    }
 
 }

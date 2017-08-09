@@ -6,10 +6,12 @@ commands:
       perme:
         description: Provide a more convience way to take back permission/commands.
         usage: |
-               Unly Operator can use command.
+               Only Operator can use command.
                <period> in seconds.
-               <command> with one single line command without slash(/)
+               <command> with one single line and cmd without slash(/)
                /<command> help - Plugin's Help.
                /<command> tasks - list all tasks.
-               /<command> dur|duration <period> <command> - Let system after <period> execute command.
-               /<command> dur-refelct|duration-refelct <peroid> <command> - Let system after <period> execute refelct-command.
+               /<command> tasks delete <id> - delete a exists task in tasks list.
+               /<command> dur|duration <period> <cmd> - Let system after <period> execute command.
+               /<command> dur-reflect|duration-refelct <period> <cmd> - Let system execute command right now and after <period> execute refelct-command.
+               /<command> dur-reflect-delay|duration-reflect-delay <period> <delay> <cmd> - Let system after <delay> execute command and after <period> execute reflect-command.

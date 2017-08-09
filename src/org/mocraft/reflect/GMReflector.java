@@ -6,12 +6,11 @@ import org.mocraft.command.gm.*;
 import java.util.HashMap;
 import java.util.Map;
 
-public class GMReflector extends VanillaReflector implements Reflector {
+public class GMReflector implements Reflector {
 
     public Map<String, GmCommand> reflectableMap = new HashMap<String, GmCommand>();
 
     public GMReflector(PerMession instance) {
-        super(instance);
         reflectableMap.put("manuadd", new GmManuadd());
         reflectableMap.put("manuaddsub", new GmManuaddsub());
         reflectableMap.put("manudelsub", new GmManudelsub());

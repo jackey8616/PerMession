@@ -1,14 +1,11 @@
 package org.mocraft.command.gm;
 
-public interface GmCommand {
+import org.mocraft.command.Command;
 
-    boolean reflectable();
+public interface GmCommand extends Command {
 
+    @Override
     GmCommand init(String[] args);
-
-    String toStringCommand();
-
-    String label();
 
     GmCommand reflect();
 

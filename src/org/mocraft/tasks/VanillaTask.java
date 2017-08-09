@@ -11,12 +11,12 @@ public class VanillaTask implements Runnable, Task {
     protected int id;
     protected PerMession instance;
     protected CommandSender sender;
-    protected int reflect;
+    protected boolean reflect;
     protected int period;
     protected ZonedDateTime startTime, endTime;
     protected String command;
 
-    public VanillaTask(PerMession instance, CommandSender sender, int reflect, int period, String args) {
+    public VanillaTask(PerMession instance, CommandSender sender, boolean reflect, int period, String args) {
         this.instance = instance;
         this.sender = sender;
         this.startTime = ZonedDateTime.now();
@@ -24,17 +24,16 @@ public class VanillaTask implements Runnable, Task {
         this.period = period;
         this.endTime = startTime.plusSeconds(period);
         this.command = args;
-        if(reflect != 0)
+        if(reflect)
             instance.getServer().dispatchCommand(sender, args);
     }
 
-    public String commandReplace(int reflect, String cmd) {
-        if(reflect == 0) {
+    public String commandReplace(boolean reflect, String cmd) {
+        if(!reflect) {
             return cmd;
-        } else if(reflect == 1)  {
+        } else {
             return instance.vanillaReflector.reflect(cmd);
         }
-        return null;
     }
 
     @Override
