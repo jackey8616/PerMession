@@ -5,17 +5,12 @@ import org.bukkit.World;
 
 import java.util.UUID;
 
-public class PexUsergremove extends PexUsergset implements PexCommand {
+public class PexUsergremove extends PexUsergset {
 
     public PexUsergremove() {}
 
     public PexUsergremove(UUID target, String group, World world) {
         super(target, group, world);
-    }
-
-    @Override
-    public boolean reflectable() {
-        return true;
     }
 
     @Override
@@ -40,4 +35,5 @@ public class PexUsergremove extends PexUsergset implements PexCommand {
     public PexCommand reflect() {
         return new PexUsergset(target, group, world);
     }
+
 }

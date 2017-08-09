@@ -12,7 +12,8 @@ public class PmTaskArgs {
 
     /*              [0]     [1]     [2]
         /<command>  tasks                   - List all un-execute tasks.
-        /<command>  tasks   delete  <id>    - Execute <cmd> right now and execute <reflect-cmd> after <period> sec.
+        /<command>  tasks   delete  <id>    - Delete a specific task with id in list.
+        /<command>  tasks   delete-all       - Delete all tasks in list.
     */
 
     public PmTaskArgs(PerMession instance, CommandSender sender, String[] args) {
@@ -21,27 +22,32 @@ public class PmTaskArgs {
         if(args.length == 1) {
             list();
         } else {
-            if (args[1].equalsIgnoreCase("delete")) {
-                delete(args);
+            if (args[1].startsWith("delete")) {
+                delete(args, args[1].contains("all"));
             }
         }
     }
 
     private void list() {
-        sender.sendMessage(String.format("| I D |       T I M E       |    COMMAND / REFLECT"));
+        sender.sendMessage(String.format("| I D |     ASSIGN TIME     |      START TIME     |      END  TIME      |    COMMAND / REFLECT"));
         for (int i = 0; i < instance.tasks.size(); ++i) {
             VanillaTask task = instance.tasks.get(i);
-            sender.sendMessage(String.format("| % 3d | %s | %s | %s |", i, task.getStartTimeString(), task.getCommand(), task.getReflectCommand()));
+            sender.sendMessage(String.format("| % 3d | %s | %s | %s | %s | %s |", i, task.getAssignTimeString(), task.getStartTimeString(), task.getEndTimeString(), task.getCommand(), task.getReflectCommand()));
         }
     }
 
-    private void delete(String[] args) {
-        VanillaTask task = instance.tasks.get(Integer.valueOf(args[2]));
+    private void delete(String[] args, boolean all) {
+        if(all) {
+            sender.sendMessage("Removed all(" + instance.tasks.size() + ") tasks.");
+            instance.tasks.clear();
+        } else {
+            VanillaTask task = instance.tasks.get(Integer.valueOf(args[2]));
 
-        if(task == null) return;
-        Bukkit.getScheduler().cancelTask(task.getId());
-        instance.tasks.remove(task);
-        sender.sendMessage("Removed task id: " + args[2] + ".");
+            if (task == null) return;
+            Bukkit.getScheduler().cancelTask(task.getId());
+            instance.tasks.remove(task);
+            sender.sendMessage("Removed task id: " + args[2] + ".");
+        }
     }
 
 }

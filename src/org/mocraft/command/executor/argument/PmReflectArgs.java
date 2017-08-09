@@ -32,13 +32,13 @@ public class PmReflectArgs {
         for (int i = argsIndex; i < args.length; ++i)
             command += args[i] + " ";
         if(instance.permissionsEx && command.startsWith("pex")) {
-            task = new PexTask(instance, sender, reflect, period, command.trim());
+            task = new PexTask(instance, sender, reflect, delay, period, command.trim());
         } else if(instance.groupManager && instance.gmReflector.reflect(command) != null) {
-            task = new GMTask(instance, sender, reflect, period, command.trim());
+            task = new GMTask(instance, sender, reflect, delay, period, command.trim());
         } else {
-            task = new VanillaTask(instance, sender, reflect, period, command.trim());
+            task = new VanillaTask(instance, sender, reflect, delay, period, command.trim());
         }
-        task.setId(instance.getServer().getScheduler().scheduleSyncRepeatingTask(instance, task, 0L, 20L));
+        task.setId(instance.getServer().getScheduler().scheduleSyncRepeatingTask(instance, task, delay * 20L, 20L));
         instance.tasks.add(task);
         return;
     }

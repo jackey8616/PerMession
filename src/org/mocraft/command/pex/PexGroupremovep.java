@@ -3,17 +3,12 @@ package org.mocraft.command.pex;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-public class PexGroupremovep extends PexGroupaddp implements PexCommand {
+public class PexGroupremovep extends PexGroupaddp {
 
     public PexGroupremovep() {}
 
     public PexGroupremovep(String group, String permission, World world) {
         super(group, permission, world);
-    }
-
-    @Override
-    public boolean reflectable() {
-        return true;
     }
 
     @Override

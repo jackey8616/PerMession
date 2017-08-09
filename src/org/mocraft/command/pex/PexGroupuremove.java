@@ -5,17 +5,12 @@ import org.bukkit.World;
 
 import java.util.UUID;
 
-public class PexGroupuremove extends PexGroupuadd implements PexCommand {
+public class PexGroupuremove extends PexGroupuadd {
 
     public PexGroupuremove() {}
 
     public PexGroupuremove(String group, UUID target, World world) {
         super(group, target, world);
-    }
-
-    @Override
-    public boolean reflectable() {
-        return true;
     }
 
     @Override
@@ -27,9 +22,7 @@ public class PexGroupuremove extends PexGroupuadd implements PexCommand {
     }
 
     @Override
-    public String toStringCommand() {
-        return "pex group " + group + " user remove " + Bukkit.getPlayer(target).getName() + (world != null ? " " + world.getName() : "");
-    }
+    public String toStringCommand() { return "pex group " + group + " user remove " + Bukkit.getPlayer(target).getName() + (world != null ? " " + world.getName() : ""); }
 
     @Override
     public String label() {
@@ -40,4 +33,5 @@ public class PexGroupuremove extends PexGroupuadd implements PexCommand {
     public PexCommand reflect() {
         return new PexGroupuadd(group, target, world);
     }
+
 }

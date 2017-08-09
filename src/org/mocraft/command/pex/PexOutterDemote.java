@@ -4,17 +4,12 @@ import org.bukkit.Bukkit;
 
 import java.util.UUID;
 
-public class PexOutterDemote extends PexOutterPromote implements PexCommand {
+public class PexOutterDemote extends PexOutterPromote {
 
     public PexOutterDemote() {}
 
     public PexOutterDemote(UUID target) {
         this.target = target;
-    }
-
-    @Override
-    public boolean reflectable() {
-        return true;
     }
 
     @Override

@@ -1,10 +1,11 @@
 package org.mocraft.command.pex;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PexOutterPromote implements PexCommand {
+public class PexOutterPromote implements PexCommand, PexPlayerCommand {
 
     protected UUID target;
 
@@ -39,4 +40,8 @@ public class PexOutterPromote implements PexCommand {
     public PexCommand reflect() {
         return new PexOutterDemote(target);
     }
+
+    @Override
+    public Player getPlayer() { return Bukkit.getPlayer(target); }
+
 }

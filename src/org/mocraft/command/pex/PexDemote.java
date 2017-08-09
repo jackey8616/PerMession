@@ -4,17 +4,12 @@ import org.bukkit.Bukkit;
 
 import java.util.UUID;
 
-public class PexDemote extends PexPromote implements PexCommand {
+public class PexDemote extends PexPromote {
 
     public PexDemote() {}
 
     public PexDemote(UUID target, String ladder) {
         super(target, ladder);
-    }
-
-    @Override
-    public boolean reflectable() {
-        return true;
     }
 
     @Override
@@ -25,9 +20,7 @@ public class PexDemote extends PexPromote implements PexCommand {
     }
 
     @Override
-    public String toStringCommand() {
-        return "pex demote " + Bukkit.getPlayer(target).getName() + (ladder != null ? " " + ladder : "");
-    }
+    public String toStringCommand() { return "pex demote " + Bukkit.getPlayer(target).getName() + (ladder != null ? " " + ladder : ""); }
 
     @Override
     public String label() {

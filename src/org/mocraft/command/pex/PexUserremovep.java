@@ -5,7 +5,7 @@ import org.bukkit.World;
 
 import java.util.UUID;
 
-public class PexUserremovep extends PexUseraddp implements PexCommand {
+public class PexUserremovep extends PexUseraddp {
 
     public PexUserremovep() {}
 
@@ -14,14 +14,7 @@ public class PexUserremovep extends PexUseraddp implements PexCommand {
     }
 
     @Override
-    public boolean reflectable() {
-        return true;
-    }
-
-    @Override
-    public String toStringCommand() {
-        return "pex user " + Bukkit.getPlayer(target).getName() + " remove " + permission + (world != null ? " " + world : "") ;
-    }
+    public String toStringCommand() { return "pex user " + Bukkit.getPlayer(target).getName() + " remove " + permission + (world != null ? " " + world : "") ; }
 
     @Override
     public String label() {
@@ -32,4 +25,5 @@ public class PexUserremovep extends PexUseraddp implements PexCommand {
     public PexCommand reflect() {
         return new PexUseraddp(target, permission, world);
     }
+
 }

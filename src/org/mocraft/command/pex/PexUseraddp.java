@@ -2,10 +2,11 @@ package org.mocraft.command.pex;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PexUseraddp implements PexCommand {
+public class PexUseraddp implements PexCommand, PexPlayerCommand {
 
     protected UUID target;
     protected String permission;
@@ -33,9 +34,7 @@ public class PexUseraddp implements PexCommand {
     }
 
     @Override
-    public String toStringCommand() {
-        return "pex user " + Bukkit.getPlayer(target).getName() + " add " + permission + (world != null ? " " + world : "") ;
-    }
+    public String toStringCommand() { return "pex user " + Bukkit.getPlayer(target).getName() + " add " + permission + (world != null ? " " + world : "") ; }
 
     @Override
     public String label() {
@@ -46,4 +45,8 @@ public class PexUseraddp implements PexCommand {
     public PexCommand reflect() {
         return new PexUserremovep(target, permission, world);
     }
+
+    @Override
+    public Player getPlayer() { return Bukkit.getPlayer(target); }
+
 }

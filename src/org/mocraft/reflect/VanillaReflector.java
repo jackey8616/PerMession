@@ -2,7 +2,6 @@ package org.mocraft.reflect;
 
 import org.bukkit.command.Command;
 import org.mocraft.PerMession;
-import org.mocraft.command.VaLoadedCommand;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,7 +10,6 @@ public class VanillaReflector implements Reflector {
 
     protected PerMession instance;
 
-    public Map<String, VaLoadedCommand> commandPool = new HashMap<String, VaLoadedCommand>();
     public Map<String, Command> reflectableMap = new HashMap<String, Command>();
 
     public VanillaReflector(PerMession instance) {

@@ -2,10 +2,11 @@ package org.mocraft.command.pex;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PexGroupuadd implements PexCommand {
+public class PexGroupuadd implements PexCommand, PexPlayerCommand {
 
     protected String group;
     protected UUID target;
@@ -33,9 +34,7 @@ public class PexGroupuadd implements PexCommand {
     }
 
     @Override
-    public String toStringCommand() {
-        return "pex group " + group + " user add " + Bukkit.getPlayer(target).getName() + (world != null ? " " + world.getName() : "");
-    }
+    public String toStringCommand() { return "pex group " + group + " user add " + Bukkit.getPlayer(target).getName() + (world != null ? " " + world.getName() : ""); }
 
     @Override
     public String label() {
@@ -46,4 +45,8 @@ public class PexGroupuadd implements PexCommand {
     public PexCommand reflect() {
         return new PexGroupuremove(group, target, world);
     }
+
+    @Override
+    public Player getPlayer() { return Bukkit.getPlayer(target); }
+
 }

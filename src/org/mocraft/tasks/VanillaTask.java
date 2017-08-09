@@ -12,20 +12,22 @@ public class VanillaTask implements Runnable, Task {
     protected PerMession instance;
     protected CommandSender sender;
     protected boolean reflect;
+    protected int delay;
     protected int period;
-    protected ZonedDateTime startTime, endTime;
+    protected ZonedDateTime assignTime, startTime, endTime;
     protected String command;
+    protected boolean executed = false;
 
-    public VanillaTask(PerMession instance, CommandSender sender, boolean reflect, int period, String args) {
+    public VanillaTask(PerMession instance, CommandSender sender, boolean reflect, int delay, int period, String args) {
         this.instance = instance;
         this.sender = sender;
-        this.startTime = ZonedDateTime.now();
+        this.assignTime = ZonedDateTime.now();
         this.reflect = reflect;
+        this.delay = delay;
         this.period = period;
+        this.startTime = assignTime.plusSeconds(delay);
         this.endTime = startTime.plusSeconds(period);
         this.command = args;
-        if(reflect)
-            instance.getServer().dispatchCommand(sender, args);
     }
 
     public String commandReplace(boolean reflect, String cmd) {
@@ -38,7 +40,9 @@ public class VanillaTask implements Runnable, Task {
 
     @Override
     public void run() {
-        if(ZonedDateTime.now().isAfter(endTime) || ZonedDateTime.now().isEqual(endTime)) {
+        if(reflect && !executed)
+            executed = instance.getServer().dispatchCommand(sender, command);
+        else if(ZonedDateTime.now().isAfter(endTime) || ZonedDateTime.now().isEqual(endTime)) {
             instance.getServer().getScheduler().cancelTask(id);
             instance.getServer().dispatchCommand(sender, commandReplace(reflect, command));
             instance.tasks.remove(this);
@@ -49,17 +53,21 @@ public class VanillaTask implements Runnable, Task {
 
     public void setId(int id) { this.id = id; }
 
+    public String getAssignTimeString() { return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(assignTime); }
+
     public String getStartTimeString() {
         return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(startTime);
+    }
+
+    public String getEndTimeString() {
+        return DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(endTime);
     }
 
     public String getCommand() {
         return this.command;
     }
 
-    public String getReflectCommand() {
-        return (instance.vanillaReflector.reflect(command) != null ? instance.vanillaReflector.reflect(command) : "(None)");
-    }
+    public String getReflectCommand() { return (instance.vanillaReflector.reflect(command) != null ? instance.vanillaReflector.reflect(command) : "(None)"); }
 
     public String toString() { return this.toString(); }
 

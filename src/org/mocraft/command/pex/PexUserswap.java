@@ -2,10 +2,11 @@ package org.mocraft.command.pex;
 
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PexUserswap implements PexCommand {
+public class PexUserswap implements PexCommand, PexPlayerCommand {
 
     protected UUID target;
     protected String permissionA, permissionB;
@@ -35,9 +36,7 @@ public class PexUserswap implements PexCommand {
     }
 
     @Override
-    public String toStringCommand() {
-        return "pex user " + Bukkit.getPlayer(target).getName() + " swap " + permissionA + " " + permissionB + (world != null ? " " + world.getName() : "" );
-    }
+    public String toStringCommand() { return "pex user " + Bukkit.getPlayer(target).getName() + " swap " + permissionA + " " + permissionB + (world != null ? " " + world.getName() : "" ); }
 
     @Override
     public String label() {
@@ -48,4 +47,8 @@ public class PexUserswap implements PexCommand {
     public PexCommand reflect() {
         return new PexUserswap(target, permissionB, permissionA, world);
     }
+
+    @Override
+    public Player getPlayer() { return Bukkit.getPlayer(target); }
+
 }

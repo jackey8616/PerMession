@@ -30,9 +30,7 @@ public class PexGroupaddp implements PexCommand {
     }
 
     @Override
-    public String toStringCommand() {
-        return "pex group " + group + " add " + permission + (world != null ? " " + world.getName() : "");
-    }
+    public String toStringCommand() { return "pex group " + group + " add " + permission + (world != null ? " " + world.getName() : ""); }
 
     @Override
     public String label() {
