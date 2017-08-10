@@ -4,17 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class PexGroupuadd implements PexCommand, PexPlayerCommand {
 
     protected String group;
-    protected UUID target;
+    protected String target;
     protected World world;
 
     public PexGroupuadd() {}
 
-    public PexGroupuadd(String group, UUID target, World world) {
+    public PexGroupuadd(String group, String target, World world) {
         this.group = group;
         this.target = target;
         this.world = world;
@@ -28,13 +26,13 @@ public class PexGroupuadd implements PexCommand, PexPlayerCommand {
     @Override
     public PexGroupuadd init(String[] args) {
         this.group = args[2];
-        this.target = Bukkit.getPlayer(args[5]).getUniqueId();
+        this.target = args[5];
         this.world = args.length > 6 ? Bukkit.getWorld(args[6]) : null;
         return this;
     }
 
     @Override
-    public String toStringCommand() { return "pex group " + group + " user add " + Bukkit.getPlayer(target).getName() + (world != null ? " " + world.getName() : ""); }
+    public String toStringCommand() { return "pex group " + group + " user add " + target + (world != null ? " " + world.getName() : ""); }
 
     @Override
     public String label() {

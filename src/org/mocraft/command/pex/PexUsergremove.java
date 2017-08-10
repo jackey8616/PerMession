@@ -3,19 +3,17 @@ package org.mocraft.command.pex;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 
-import java.util.UUID;
-
 public class PexUsergremove extends PexUsergset {
 
     public PexUsergremove() {}
 
-    public PexUsergremove(UUID target, String group, World world) {
-        super(target, group, world);
+    public PexUsergremove(String target, String group, World world) {
+            super(target, group, world);
     }
 
     @Override
     public PexUsergremove init(String[] args) {
-        this.target = Bukkit.getPlayer(args[2]).getUniqueId();
+        this.target = args[2];
         this.group = args[5];
         this.world = args.length > 6 ? Bukkit.getWorld(args[6]) : null;
         return this;
@@ -23,7 +21,7 @@ public class PexUsergremove extends PexUsergset {
 
     @Override
     public String toStringCommand() {
-        return "pex user " + Bukkit.getPlayer(target).getName() + " group remove " + group + (world != null ? " " + world.getName() : "");
+        return "pex user " + target + " group remove " + group + (world != null ? " " + world.getName() : "");
     }
 
     @Override

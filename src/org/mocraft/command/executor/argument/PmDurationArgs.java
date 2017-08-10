@@ -6,7 +6,9 @@ import org.mocraft.tasks.GMTask;
 import org.mocraft.tasks.PexTask;
 import org.mocraft.tasks.VanillaTask;
 
-public class PmReflectArgs {
+import java.time.ZonedDateTime;
+
+public class PmDurationArgs {
 
     private PerMession instance;
 
@@ -16,7 +18,9 @@ public class PmReflectArgs {
         /<command>  dur-delay-reflect|duration-delay-reflect    <period>    <delay>     <cmd>   - After <delay> sec execute <cmd>, and after <period> sec execute <reflect-cmd>.
     */
 
-    public PmReflectArgs(PerMession instance, CommandSender sender, String[] args) {
+    public PmDurationArgs() {  }
+
+    public PmDurationArgs(PerMession instance, CommandSender sender, String[] args) {
         this.instance = instance;
         boolean reflect = args[0].contains("reflect");
         int period = Integer.valueOf(args[1]);
@@ -31,6 +35,7 @@ public class PmReflectArgs {
         VanillaTask task = null;
         for (int i = argsIndex; i < args.length; ++i)
             command += args[i] + " ";
+
         if(instance.permissionsEx && command.startsWith("pex")) {
             task = new PexTask(instance, sender, reflect, delay, period, command.trim());
         } else if(instance.groupManager && instance.gmReflector.reflect(command) != null) {
@@ -38,9 +43,18 @@ public class PmReflectArgs {
         } else {
             task = new VanillaTask(instance, sender, reflect, delay, period, command.trim());
         }
-        task.setId(instance.getServer().getScheduler().scheduleSyncRepeatingTask(instance, task, delay * 20L, 20L));
-        instance.tasks.add(task);
+        arrangeTask(instance, task);
         return;
+    }
+
+    public void arrangeTask(PerMession instance, VanillaTask task) {
+        if (task.getStartTime().isBefore(ZonedDateTime.now()) || task.getEndTime().isBefore(ZonedDateTime.now()))
+            task.setId(instance.getServer().getScheduler().scheduleSyncRepeatingTask(instance, task, 0L, 20L));
+        else if(task.getAssignTime().isBefore(ZonedDateTime.now()))
+            task.setId(instance.getServer().getScheduler().scheduleSyncRepeatingTask(instance, task, ZonedDateTime.now().compareTo(task.getAssignTime()) * 20L, 20L));
+        else
+            task.setId(instance.getServer().getScheduler().scheduleSyncRepeatingTask(instance, task, task.getDelay() * 20L, 20L));
+        instance.tasks.add(task);
     }
 
 }

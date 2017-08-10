@@ -22,7 +22,9 @@ public class PmTaskArgs {
         if(args.length == 1) {
             list();
         } else {
-            if (args[1].startsWith("delete")) {
+            if(args[1].startsWith("log")) {
+                log();
+            } else if (args[1].startsWith("delete")) {
                 delete(args, args[1].contains("all"));
             }
         }
@@ -36,9 +38,17 @@ public class PmTaskArgs {
         }
     }
 
+    private void log() {
+        sender.sendMessage(String.format("|     ASSIGN TIME     |      START TIME     |      END  TIME      |    COMMAND / REFLECT"));
+        for(String str : instance.taskLogs)
+            sender.sendMessage(str);
+    }
+
     private void delete(String[] args, boolean all) {
         if(all) {
             sender.sendMessage("Removed all(" + instance.tasks.size() + ") tasks.");
+            for(VanillaTask task : instance.tasks)
+                instance.getServer().getScheduler().cancelTask(task.getId());
             instance.tasks.clear();
         } else {
             VanillaTask task = instance.tasks.get(Integer.valueOf(args[2]));

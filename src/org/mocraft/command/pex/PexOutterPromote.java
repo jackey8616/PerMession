@@ -3,15 +3,13 @@ package org.mocraft.command.pex;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class PexOutterPromote implements PexCommand, PexPlayerCommand {
 
-    protected UUID target;
+    protected String target;
 
     public PexOutterPromote() {}
 
-    public PexOutterPromote(UUID target) {
+    public PexOutterPromote(String target) {
         this.target = target;
     }
 
@@ -22,13 +20,13 @@ public class PexOutterPromote implements PexCommand, PexPlayerCommand {
 
     @Override
     public PexOutterPromote init(String[] args) {
-        this.target = Bukkit.getPlayer(args[1]).getUniqueId();
+        this.target = args[1];
         return this;
     }
 
     @Override
     public String toStringCommand() {
-        return "promote " + Bukkit.getPlayer(target).getName();
+        return "promote " + target;
     }
 
     @Override

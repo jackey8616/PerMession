@@ -1,20 +1,17 @@
 package org.mocraft.command.pex;
 
-import org.bukkit.Bukkit;
 import org.bukkit.World;
-
-import java.util.UUID;
 
 public class PexUserremovep extends PexUseraddp {
 
     public PexUserremovep() {}
 
-    public PexUserremovep(UUID target, String permission, World world) {
+    public PexUserremovep(String target, String permission, World world) {
         super(target, permission, world);
     }
 
     @Override
-    public String toStringCommand() { return "pex user " + Bukkit.getPlayer(target).getName() + " remove " + permission + (world != null ? " " + world : "") ; }
+    public String toStringCommand() { return "pex user " + target + " remove " + permission + (world != null ? " " + world : "") ; }
 
     @Override
     public String label() {

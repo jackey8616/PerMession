@@ -2,6 +2,7 @@ package org.mocraft;
 
 import org.bukkit.plugin.java.JavaPlugin;
 import org.mocraft.command.executor.PermeExecutor;
+import org.mocraft.config.ConfigManager;
 import org.mocraft.reflect.GMReflector;
 import org.mocraft.reflect.PexReflector;
 import org.mocraft.reflect.VanillaReflector;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
  */
 public class PerMession extends JavaPlugin {
 
+    public ConfigManager config;
+
     public boolean permissionsEx = false;
     public JavaPlugin pexInstance;
     public PexReflector pexReflector;
@@ -24,9 +27,13 @@ public class PerMession extends JavaPlugin {
     public PermeExecutor permeCommandExecutor;
     public VanillaReflector vanillaReflector;
     public ArrayList<VanillaTask> tasks = new ArrayList<VanillaTask>();
+    public ArrayList<String> taskLogs = new ArrayList<String>();
 
     @Override
     public void onEnable() {
+        config = new ConfigManager(this);
+        config.onEnable();
+
         permissionsEx = getServer().getPluginManager().getPlugin("PermissionsEx") != null;
         groupManager = getServer().getPluginManager().getPlugin("GroupManager") != null;
         vanillaReflector = new VanillaReflector(this);
@@ -43,6 +50,8 @@ public class PerMession extends JavaPlugin {
     }
 
     @Override
-    public void onDisable() {}
+    public void onDisable() {
+        config.onDisable();
+    }
 
 }

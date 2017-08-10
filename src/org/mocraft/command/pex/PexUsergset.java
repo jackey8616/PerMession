@@ -4,18 +4,16 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class PexUsergset implements PexCommand, PexPlayerCommand {
 
-    protected UUID target;
+    protected String target;
     protected String group;
     protected World world;
 
     public PexUsergset() {}
 
-    public PexUsergset(UUID target, String group, World world) {
-        this.target = target;
+    public PexUsergset(String target, String group, World world) {
+            this.target = target;
         this.group = group;
         this.world = world;
     }
@@ -25,7 +23,7 @@ public class PexUsergset implements PexCommand, PexPlayerCommand {
 
     @Override
     public PexUsergset init(String[] args) {
-        this.target = Bukkit.getPlayer(args[2]).isOnline() ? Bukkit.getPlayer(args[2]).getUniqueId() : Bukkit.getOfflinePlayer(args[2]).getUniqueId();
+        this.target = args[2];
         this.group = args[5];
         this.world = args.length > 6 ? Bukkit.getWorld(args[6]) : null;
         return this;
@@ -33,7 +31,7 @@ public class PexUsergset implements PexCommand, PexPlayerCommand {
 
     @Override
     public String toStringCommand() {
-        return "pex user " + Bukkit.getPlayer(target).getName() + " group set " + group + (world != null ? " " + world.getName() : "");
+        return "pex user " + target + " group set " + group + (world != null ? " " + world.getName() : "");
     }
 
     @Override

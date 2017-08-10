@@ -3,16 +3,14 @@ package org.mocraft.command.pex;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class PexPromote implements PexCommand, PexPlayerCommand {
 
-    protected UUID target;
+    protected String target;
     protected String ladder;
 
     public PexPromote() {}
 
-    public PexPromote(UUID target, String ladder) {
+    public PexPromote(String target, String ladder) {
         this.target = target;
         this.ladder = ladder;
     }
@@ -24,13 +22,13 @@ public class PexPromote implements PexCommand, PexPlayerCommand {
 
     @Override
     public PexPromote init(String[] args) {
-        this.target = Bukkit.getPlayer(args[2]).getUniqueId();
+        this.target = args[2];
         this.ladder = args.length > 3 ? args[3] : null;
         return this;
     }
 
     @Override
-    public String toStringCommand() { return "pex promote " + Bukkit.getPlayer(target).getName() + (ladder != null ? " " + ladder : ""); }
+    public String toStringCommand() { return "pex promote " + target + (ladder != null ? " " + ladder : ""); }
 
     @Override
     public String label() {

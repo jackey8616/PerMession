@@ -4,17 +4,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 
-import java.util.UUID;
-
 public class PexUseraddp implements PexCommand, PexPlayerCommand {
 
-    protected UUID target;
+    protected String target;
     protected String permission;
     protected World world;
 
     public PexUseraddp() {}
 
-    public PexUseraddp(UUID target, String permission, World world) {
+    public PexUseraddp(String target, String permission, World world) {
         this.target = target;
         this.permission = permission;
         this.world = world;
@@ -27,14 +25,14 @@ public class PexUseraddp implements PexCommand, PexPlayerCommand {
 
     @Override
     public PexUseraddp init(String[] args) {
-        this.target = Bukkit.getPlayer(args[2]).getUniqueId();
+        this.target = args[2];
         this.permission = args[4];
         this.world = args.length > 5 ? Bukkit.getWorld(args[5]) : null;
         return this;
     }
 
     @Override
-    public String toStringCommand() { return "pex user " + Bukkit.getPlayer(target).getName() + " add " + permission + (world != null ? " " + world : "") ; }
+    public String toStringCommand() { return "pex user " + target + " add " + permission + (world != null ? " " + world : "") ; }
 
     @Override
     public String label() {

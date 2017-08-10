@@ -4,7 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.mocraft.PerMession;
-import org.mocraft.command.executor.argument.PmReflectArgs;
+import org.mocraft.command.executor.argument.PmDurationArgs;
 import org.mocraft.command.executor.argument.PmTaskArgs;
 
 public class PermeExecutor implements CommandExecutor {
@@ -24,7 +24,7 @@ public class PermeExecutor implements CommandExecutor {
                 } else if(args[0].startsWith("tasks")) {
                     new PmTaskArgs(intance, sender, args);
                 } else if(args[0].startsWith("dur")) {
-                    new PmReflectArgs(intance, sender, args);
+                    new PmDurationArgs(intance, sender, args);
                 } else {
                     return false;
                 }
