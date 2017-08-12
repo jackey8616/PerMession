@@ -24,8 +24,10 @@ public class PmTaskArgs {
         } else {
             if(args[1].startsWith("log")) {
                 log();
-            } else if (args[1].startsWith("delete")) {
+            } else if(args[1].startsWith("delete")) {
                 delete(args, args[1].contains("all"));
+            } else if(args[1].startsWith("save")) {
+                save();
             }
         }
     }
@@ -42,6 +44,10 @@ public class PmTaskArgs {
         sender.sendMessage(String.format("|     ASSIGN TIME     |      START TIME     |      END  TIME      |    COMMAND / REFLECT"));
         for(String str : instance.taskLogs)
             sender.sendMessage(str);
+    }
+
+    private void save() {
+        this.instance.onDisable();
     }
 
     private void delete(String[] args, boolean all) {

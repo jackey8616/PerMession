@@ -13,6 +13,7 @@ commands:
                /<command> tasks - list all tasks.
                /<command> tasks log - list all history tasks.
                /<command> tasks delete <id> - delete a exists task in tasks list.
+               /<command> tasks save-all - save all tasks in list.
                /<command> tasks delete-all - delete all tasks in list.
                /<command> dur|duration <period> <cmd> - Let system after <period> execute command.
                /<command> dur-reflect|duration-refelct <period> <cmd> - Let system execute command right now and after <period> execute refelct-command.
