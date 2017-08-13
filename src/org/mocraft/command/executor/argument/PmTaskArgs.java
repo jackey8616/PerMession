@@ -11,9 +11,12 @@ public class PmTaskArgs {
     private CommandSender sender;
 
     /*              [0]     [1]     [2]
-        /<command>  tasks                   - List all un-execute tasks.
-        /<command>  tasks   delete  <id>    - Delete a specific task with id in list.
-        /<command>  tasks   delete-all       - Delete all tasks in list.
+        /<command>  tasks                   - list all tasks.
+        /<command>  tasks   log             - list all history tasks.
+        /<command>  tasks   delete <id>     - delete a exists task in tasks list.
+        /<command>  tasks   delete-all      - delete all tasks in list.
+        /<command>  tasks   save-all        - save all tasks in list.
+        /<command>  tsks    reload          - reload all tsks in storage.
     */
 
     public PmTaskArgs(PerMession instance, CommandSender sender, String[] args) {
@@ -26,8 +29,10 @@ public class PmTaskArgs {
                 log();
             } else if(args[1].startsWith("delete")) {
                 delete(args, args[1].contains("all"));
-            } else if(args[1].startsWith("save")) {
+            } else if(args[1].equalsIgnoreCase("save-all")) {
                 save();
+            } else if(args[1].equalsIgnoreCase("reload")) {
+                reload();
             }
         }
     }
@@ -46,10 +51,6 @@ public class PmTaskArgs {
             sender.sendMessage(str);
     }
 
-    private void save() {
-        this.instance.onDisable();
-    }
-
     private void delete(String[] args, boolean all) {
         if(all) {
             sender.sendMessage("Removed all(" + instance.tasks.size() + ") tasks.");
@@ -66,4 +67,13 @@ public class PmTaskArgs {
         }
     }
 
+    private void save() {
+        this.instance.onDisable();
+        sender.sendMessage("Saved tasks.");
+    }
+
+    private void reload() {
+        this.instance.config.onReload();
+        sender.sendMessage("Reloaded tasks.");
+    }
 }

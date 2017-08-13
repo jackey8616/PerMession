@@ -15,6 +15,7 @@ commands:
                /<command> tasks delete <id> - delete a exists task in tasks list.
                /<command> tasks save-all - save all tasks in list.
                /<command> tasks delete-all - delete all tasks in list.
+               /<command> tasks reload - reload all tsks in storage.
                /<command> dur|duration <period> <cmd> - Let system after <period> execute command.
                /<command> dur-reflect|duration-refelct <period> <cmd> - Let system execute command right now and after <period> execute refelct-command.
                /<command> dur-reflect-delay|duration-reflect-delay <period> <delay> <cmd> - Let system after <delay> execute command and after <period> execute reflect-command.
